@@ -21,5 +21,6 @@
 -- Pattern matching:
 -- https://www.postgresql.org/docs/current/functions-matching.html
 
-
--- YOUR CODE HERE
+SELECT id, title, updated
+FROM recipes
+WHERE UPPER(title) LIKE UPPER($1); 

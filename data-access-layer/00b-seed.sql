@@ -7,12 +7,7 @@
 -- Set the role to 'recipe_box_app' so the tables created will be owned by that
 -- user.
 
--- YOUR CODE HERE
-
-
-
-
-
+SET ROLE recipe_box_app; 
 
 -- Create a table for the "recipes". It will need the following columns in it.
 -- The "PK" in the constraints column means the column is a "primary key". The
@@ -24,12 +19,12 @@
 -- | created     | TIMESTAMP    | NOT NULL, DEFAULT CURRENT_TIMESTAMP |
 -- | updated     | TIMESTAMP    | NOT NULL, DEFAULT CURRENT_TIMESTAMP |
 
--- YOUR CODE HERE
-
-
-
-
-
+CREATE TABLE recipes (
+  id SERIAL primary key,
+  title VARCHAR(200) NOT NULL,
+  created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
 
 -- Create a table for the "instructions". It will need the following columns in
 -- it. The "PK" in the constraints column means the column is a "primary key".
@@ -46,12 +41,13 @@
 -- | list_order    | INTEGER     | NOT NULL     |
 -- | recipe_id     | INTEGER     | FK, NOT NULL |
 
--- YOUR CODE HERE
-
-
-
-
-
+CREATE TABLE instructions (
+  id SERIAL primary key,
+  specification TEXT NOT NULL,
+  list_order INTEGER NOT NULL,
+  recipe_id INTEGER NOT NULL,
+  foreign key (recipe_id) references recipes
+);
 
 -- Create a table for the "units_of_measure". It will need the following columns
 -- in it. The "PK" in the constraints column means the column is a "primary
@@ -62,12 +58,10 @@
 -- | id          | SERIAL      | PK          |
 -- | name        | VARCHAR(20) | NOT NULL    |
 
--- YOUR CODE HERE
-
-
-
-
-
+CREATE TABLE units_of_measure (
+  id SERIAL primary key,
+  name VARCHAR(20) NOT NULL
+);
 
 -- Create a table for the "ingredients". It will need the following columns in
 -- it. The "PK" in the constraints column means the column is a "primary key".
@@ -85,13 +79,15 @@
 -- | food_stuff         | VARCHAR(500)  | NOT NULL     |
 -- | recipe_id          | INTEGER       | FK, NOT NULL |
 
--- YOUR CODE HERE
-
-
-
-
-
-
+CREATE TABLE ingredients (
+  id SERIAL primary key,
+  amount NUMERIC(5, 2) NOT NULL,
+  unit_of_measure_id INTEGER NOT NULL,
+  food_stuff VARCHAR(500) NOT NULL,
+  recipe_id INTEGER NOT NULL,
+  foreign key (unit_of_measure_id) references units_of_measure,
+  foreign key (recipe_id) references recipes
+);
 
 -- HERE BEGINS THE SEED DATA
 
